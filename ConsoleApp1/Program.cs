@@ -13,8 +13,8 @@ namespace ConsoleApp1
             Class1 clase = new Class1();
 
             Console.WriteLine("Hello World!");
-            string Prueba1 = "C:\\Users\\randr\\OneDrive\\Escritorio\\hard-test.txt";//TEXTO QUE SE QUIERE CIFRAR
-            string respuesa = "C:\\Users\\randr\\OneDrive\\Escritorio\\Resultado.txt";//EL TXT DONDE SE VA A GUARDAR
+            string Prueba1 = "C:\\Users\\randr\\OneDrive\\Escritorio\\Pruebala.txt";//TEXTO QUE SE QUIERE CIFRAR
+            string respuesa = "C:\\Users\\randr\\OneDrive\\Escritorio\\des.txt";//EL TXT DONDE SE VA A GUARDAR
             clase.Read_File(Prueba1, respuesa);
 
         }

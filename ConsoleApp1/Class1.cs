@@ -37,6 +37,7 @@ namespace ConsoleApp1
             string[] ArregoString = new string[contador]; //Arreglo con los byte de todo el archivo
             List<string> MensajeCompleto = new List<string>();
             List<string> DiccionarioLista = new List<string>();
+
             for (int i = 0; i < Caracteres; i++)
             {
                 ArregoString[i] = ArregloPrueba[i].ToString();
@@ -45,43 +46,48 @@ namespace ConsoleApp1
 
             string[] Diccionario = ArregoString.Distinct().ToArray();//Diccionario inicial del ArregloLZW   `           
             var NumMax = ArregloPrueba.Max();
+
             for (int i = 0; i < Diccionario.Length; i++)
             {
                 DiccionarioLista.Add(Diccionario[i]);
             }
+
             Compresion(DiccionarioLista, MensajeCompleto, MensajeCompleto[0]);
 
             using (BinaryWriter writer = new BinaryWriter(File.Open(ArchivoCodificado, FileMode.Create)))
             {
                 for (int i = 0; i < Caracteres; i++)
                 {
-                    writer.Write(ArregloPrueba[i]);
+                    writer.Write(MensajeCaracteres[i]);
                 }
             }
         }
         public void Compresion(List<string> Diccionario, List<string> Mensaje, string Letras) 
         {
-            if (VerificarEnElDiccioanrio(Diccionario, Letras))
+            if (Mensaje.Count!=0)
             {
-                int posicion = Posicion(Mensaje, Letras);
-                string letras = Letras + " " + Mensaje[posicion + 1];
-                Compresion(Diccionario, Mensaje, letras);
-            }
-            else
-            {
-                Diccionario.Add(Letras);
-
-                string[] LetrasSeparadas = Letras.Split(" ");
-
-                for (int i = 0; i < LetrasSeparadas.Length - 1; i++)
+                if (VerificarEnElDiccioanrio(Diccionario, Letras))
                 {
-                    Mensaje.RemoveAt(0);
-                    MensajeCaracteres[contador] = Convert.ToByte(LetrasSeparadas[i]);
-                    contador++;
+                    int posicion = Posicion(Mensaje, Letras);
+                    string letras = Letras + " " + Mensaje[posicion + 1];
+                    Compresion(Diccionario, Mensaje, letras);
                 }
+                else
+                {
+                    Diccionario.Add(Letras);
 
-                Compresion(Diccionario, Mensaje, Mensaje[0]);
+                    string[] LetrasSeparadas = Letras.Split(" ");
 
+                    for (int i = 0; i < LetrasSeparadas.Length - 1; i++)
+                    {
+                        Mensaje.RemoveAt(0);
+                        MensajeCaracteres[contador] = Convert.ToByte(Posicion(Diccionario, LetrasSeparadas[i]));
+                        contador++;
+                    }
+
+                    Compresion(Diccionario, Mensaje, Mensaje[0]);
+
+                }
             }
         }
         public int Posicion(List<string> Mensaje, string letras)
